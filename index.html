@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automatische Bildnachweise – Bookmarklet installieren</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #1d4ed8;
+      --accent-hover: #1e40af;
+      --border: #d1d5db;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 32px;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.15;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .bookmarklet-box {
+      text-align: center;
+      padding: 28px 20px;
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      background: #f9fafb;
+      margin: 28px 0;
+    }
+
+    .bookmarklet {
+      display: inline-block;
+      padding: 16px 24px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: white;
+      background: var(--accent);
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(29, 78, 216, 0.25);
+    }
+
+    .bookmarklet:hover {
+      background: var(--accent-hover);
+    }
+
+    h2 {
+      margin-top: 34px;
+      margin-bottom: 10px;
+      font-size: 1.25rem;
+    }
+
+    ol, ul {
+      padding-left: 1.3rem;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    code {
+      background: #eef2ff;
+      padding: 0.12em 0.35em;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    .note {
+      margin-top: 22px;
+      padding: 14px 16px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      color: #1e3a8a;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 22px;
+      }
+
+      .bookmarklet {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Automatische Bildnachweise</h1>
+      <p class="lead">
+        Dieses Bookmarklet erzeugt Bildnachweise nach Spektrum-Schema für
+        <strong>picture alliance</strong>, <strong>Getty Images</strong> und
+        <strong>Adobe Stock</strong>.
+      </p>
+
+      <div class="bookmarklet-box">
+        <p><strong>Ziehe diesen Button in deine Lesezeichenleiste:</strong></p>
+        <p>
+          <a class="bookmarklet" href='javascript:(function(){function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}function openPopup(formatted){const w=window.open("","","width=560,height=240");if(!w){alert("Popup konnte nicht ge%C3%B6ffnet werden.");return}w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Bildnachweis</title><style>body{font-family:sans-serif;margin:20px;line-height:1.4}textarea{width:100%;height:90px;box-sizing:border-box;font-size:16px;margin-bottom:12px}button{font-size:16px;padding:10px 14px;cursor:pointer}</style></head><body><textarea id="credit">${esc(formatted)}</textarea><br><button id="copyBtn">Kopieren und schlie%C3%9Fen</button><script>document.getElementById("copyBtn").addEventListener("click",async function(){const text=document.getElementById("credit").value;try{await navigator.clipboard.writeText(text);window.close()}catch(e){const ta=document.getElementById("credit");ta.focus();ta.select();document.execCommand("copy");window.close()}});<\/script></body></html>`);w.document.close()}function nextNonEmptyElement(el){let n=el&&el.nextElementSibling;while(n&&!n.textContent.trim())n=n.nextElementSibling;return n}function findValueAfterH5(label){const headers=Array.from(document.querySelectorAll("h5"));const h=headers.find(x=>x.textContent.trim()===label);if(!h)return null;const el=nextNonEmptyElement(h);return el?el.textContent.trim():null}function findGettyValue(label){const all=Array.from(document.querySelectorAll("body *")).map(el=>el.textContent&&el.textContent.trim()).filter(Boolean);for(let i=0;i<all.length;i++){if(all[i]===label||all[i]===label+":"){for(let j=i+1;j<Math.min(i+8,all.length);j++){const v=all[j].trim();if(v&&v!==label&&v!==label+":")return v}}}const bodyText=document.body.innerText||"";const re=new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+":?\\s*\\n+([^\\n]+)","i");const m=bodyText.match(re);return m?m[1].trim():null}function handlePictureAlliance(){const raw=findValueAfterH5("Bildnachweis");if(!raw){alert("Kein Bildnachweis gefunden.");return}const m=raw.match(/^picture alliance\/(.+?)\s*\|\s*(.+)$/i);if(!m){alert("picture-alliance-Bildnachweis hat nicht das erwartete Format:\n"+raw);return}openPopup(`${m[2].trim()} / ${m[1].trim()} / picture alliance`)}function handleGetty(){const rawCredit=findGettyValue("Bildnachweis");const rawCollection=findGettyValue("Kollektion");if(!rawCredit){alert("Kein Getty-Bildnachweis gefunden.");return}if(!rawCollection){alert("Keine Getty-Kollektion gefunden.");return}const fotograf=rawCredit.split("/")[0].trim();if(!fotograf){alert("Getty-Fotograf konnte nicht ermittelt werden:\n"+rawCredit);return}openPopup(`${fotograf} / Getty Images / ${rawCollection.trim()}`)}function handleAdobe(){const text=(document.body.innerText||"").replace(/\u00a0/g," ");let fotograf=null;const candidates=[];const metaAuthor=document.querySelector("meta[name=&quot;author&quot;],meta[property=&quot;author&quot;],meta[property=&quot;article:author&quot;]");if(metaAuthor&&metaAuthor.content)candidates.push(metaAuthor.content.trim());const selTexts=Array.from(document.querySelectorAll("a,span,div,p,h1,h2,h3")).map(el=>(el.textContent||"").trim()).filter(Boolean);for(const t of selTexts){if(/^von\s+.+/i.test(t))candidates.push(t.replace(/^von\s+/i,"").trim());let m=t.match(/(?:^|\s)von\s+([^|\n\r%E2%80%A2]+)$/i);if(m)candidates.push(m[1].trim());m=t.match(/(?:^|\n)\s*von\s+([^\n\r|%E2%80%A2]+)/i);if(m)candidates.push(m[1].trim())}let m=text.match(/(?:^|\n)\s*von\s+([^\n\r|%E2%80%A2]+)/i);if(m)candidates.push(m[1].trim());m=text.match(/\bvon\s+([A-Z%C3%80-%C3%BF0-9][^,\n\r|%E2%80%A2]{1,80})/i);if(m)candidates.push(m[1].trim());fotograf=candidates.map(s=>s.replace(/\s+/g," ").trim()).find(s=>s&&!/^(adobe stock|standard|premium|generativ|ki-generiert)$/i.test(s));if(!fotograf){alert("Kein Adobe-Urheber gefunden.");return}fotograf=fotograf.replace(/\s*(\/.*)?$/,"").trim();openPopup(`${fotograf} / stock.adobe.com`)}const host=location.hostname;if(/gettyimages\./i.test(host)){handleGetty()}else if(/stock\.adobe\.com$/i.test(host)){handleAdobe()}else{handlePictureAlliance()}})();'>
+            Bildnachweis
+          </a>
+        </p>
+        <p class="small">
+          Alternativ: Rechtsklick auf den Button → <em>Link als Lesezeichen speichern</em>
+        </p>
+      </div>
+
+      <h2>So funktioniert’s</h2>
+      <ol>
+        <li>Blende die Lesezeichenleiste deines Browsers ein.</li>
+        <li>Ziehe den Button <strong>„Bildnachweis“</strong> per Drag-and-drop in die Leiste.</li>
+        <li>Öffne anschließend eine Bildseite bei <strong>picture alliance</strong>, <strong>Getty Images</strong> oder <strong>Adobe Stock</strong>.</li>
+        <li>Klicke auf das gespeicherte Lesezeichen.</li>
+        <li>Es öffnet sich ein kleines Fenster mit dem formatierten Bildnachweis zum Kopieren.</li>
+      </ol>
+
+      <h2>Ausgabeformate</h2>
+      <ul>
+        <li><strong>picture alliance:</strong> <code>Fotograf / Agentur / picture alliance</code></li>
+        <li><strong>Getty Images:</strong> <code>Fotograf / Getty Images / Kollektion</code></li>
+        <li><strong>Adobe Stock:</strong> <code>Fotograf / stock.adobe.com</code></li>
+      </ul>
+
+      <div class="note">
+        Falls beim Klick nichts passiert, blockiert der Browser möglicherweise Popups für die Seite.
+        Dann Popups kurz erlauben und das Bookmarklet erneut ausführen.
+      </div>
+
+      <footer>
+        Installation für Spektrum-Schema-Bildnachweise.
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
