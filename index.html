@@ -4,184 +4,62 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Automatische Bildnachweise – Bookmarklet installieren</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Crect%20width%3D%2764%27%20height%3D%2764%27%20rx%3D%2714%27%20fill%3D%27%231d4ed8%27%2F%3E%3Cpath%20d%3D%27M18%2016h28a4%204%200%200%201%204%204v24a4%204%200%200%201-4%204H18a4%204%200%200%201-4-4V20a4%204%200%200%201%204-4zm3%208v16h22V24H21zm4%204h14v3H25v-3zm0%206h10v3H25v-3z%27%20fill%3D%27white%27%2F%3E%3Ccircle%20cx%3D%2745%27%20cy%3D%2721%27%20r%3D%277%27%20fill%3D%27%23bfdbfe%27%2F%3E%3C%2Fsvg%3E">
+  <meta name="theme-color" content="#1d4ed8">
   <style>
-    :root {
-      --bg: #f6f7f9;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --accent: #1d4ed8;
-      --accent-hover: #1e40af;
-      --border: #d1d5db;
-      --shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-    }
-
-    .wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 40px 20px 60px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      padding: 32px;
-    }
-
-    h1 {
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      line-height: 1.15;
-    }
-
-    .lead {
-      font-size: 1.08rem;
-      color: var(--muted);
-      margin-bottom: 28px;
-    }
-
-    .bookmarklet-box {
-      text-align: center;
-      padding: 28px 20px;
-      border: 2px dashed var(--border);
-      border-radius: 16px;
-      background: #f9fafb;
-      margin: 28px 0;
-    }
-
-    .bookmarklet, button {
-      display: inline-block;
-      padding: 16px 24px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: white;
-      background: var(--accent);
-      border: 0;
-      border-radius: 12px;
-      text-decoration: none;
-      box-shadow: 0 8px 20px rgba(29, 78, 216, 0.25);
-      cursor: pointer;
-    }
-
-    .bookmarklet:hover, button:hover {
-      background: var(--accent-hover);
-    }
-
-    h2 {
-      margin-top: 34px;
-      margin-bottom: 10px;
-      font-size: 1.25rem;
-    }
-
-    ol, ul {
-      padding-left: 1.3rem;
-    }
-
-    li + li {
-      margin-top: 8px;
-    }
-
-    code {
-      background: #eef2ff;
-      padding: 0.12em 0.35em;
-      border-radius: 6px;
-      font-size: 0.95em;
-    }
-
-    .note {
-      margin-top: 22px;
-      padding: 14px 16px;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 12px;
-      color: #1e3a8a;
-    }
-
-    .small {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    footer {
-      margin-top: 28px;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    @media (max-width: 640px) {
-      .card { padding: 22px; }
-      .bookmarklet, button { width: 100%; }
-    }
+    :root { --bg:#f6f7f9; --card:#fff; --text:#1f2937; --muted:#6b7280; --accent:#1d4ed8; --accent-hover:#1e40af; --border:#d1d5db; --shadow:0 10px 30px rgba(0,0,0,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+    .wrap { max-width:860px; margin:0 auto; padding:40px 20px 60px; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:18px; box-shadow:var(--shadow); padding:32px; }
+    h1 { margin:0 0 12px; font-size:clamp(1.8rem,3vw,2.5rem); line-height:1.15; }
+    .lead { font-size:1.08rem; color:var(--muted); margin-bottom:28px; }
+    .bookmarklet-box { text-align:center; padding:28px 20px; border:2px dashed var(--border); border-radius:16px; background:#f9fafb; margin:28px 0; }
+    .bookmarklet { display:inline-block; padding:16px 24px; font-size:1.05rem; font-weight:700; color:white; background:var(--accent); border-radius:12px; text-decoration:none; box-shadow:0 8px 20px rgba(29,78,216,.25); }
+    .bookmarklet:hover { background:var(--accent-hover); }
+    h2 { margin-top:34px; margin-bottom:10px; font-size:1.25rem; }
+    ol,ul { padding-left:1.3rem; }
+    li+li { margin-top:8px; }
+    code { background:#eef2ff; padding:.12em .35em; border-radius:6px; font-size:.95em; }
+    .note { margin-top:22px; padding:14px 16px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; color:#1e3a8a; }
+    .small { color:var(--muted); font-size:.95rem; }
+    footer { margin-top:28px; color:var(--muted); font-size:.92rem; }
+    @media (max-width:640px) { .card{padding:22px} .bookmarklet{width:100%} }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>Automatische Bildnachweise</h1>
-      <p class="lead">
-        Dieses Bookmarklet erzeugt Bildnachweise nach Spektrum-Schema für
-        <strong>picture alliance</strong>, <strong>Getty Images</strong> und
-        <strong>Adobe Stock</strong> und kopiert das Ergebnis direkt in die Zwischenablage.
-      </p>
-
-      <div class="bookmarklet-box">
-        <p><strong>Ziehe diesen Button in deine Lesezeichenleiste:</strong></p>
-        <p>
-          <a id="bookmarklet" class="bookmarklet" href="#">Bildnachweis</a>
-        </p>
-        <p class="small">
-          Alternativ: Rechtsklick auf den Button → <em>Link als Lesezeichen speichern</em>
-        </p>
-      </div>
-
-      <h2>So funktioniert’s</h2>
-      <ol>
-        <li>Blende die Lesezeichenleiste deines Browsers ein.</li>
-        <li>Ziehe den Button <strong>„Bildnachweis“</strong> per Drag-and-drop in die Leiste.</li>
-        <li>Öffne anschließend eine Bildseite bei <strong>picture alliance</strong>, <strong>Getty Images</strong> oder <strong>Adobe Stock</strong>.</li>
-        <li>Klicke auf das gespeicherte Lesezeichen.</li>
-        <li>Der formatierte Bildnachweis wird direkt in die Zwischenablage kopiert.</li>
-      </ol>
-
-      <h2>Ausgabeformate</h2>
-      <ul>
-        <li><strong>picture alliance:</strong> <code>Fotograf / Agentur / picture alliance</code></li>
-        <li><strong>Getty Images:</strong> <code>Fotograf / Getty Images / Kollektion</code></li>
-        <li><strong>Adobe Stock:</strong> <code>Fotograf / stock.adobe.com</code></li>
-      </ul>
-
-      <div class="note">
-        Falls der Browser das direkte Kopieren blockiert, zeigt das Bookmarklet stattdessen ein Feld an, aus dem der Text manuell kopiert werden kann.
-      </div>
-
-      <footer>
-        Installation für Spektrum-Schema-Bildnachweise.
-      </footer>
+  <div class="wrap"><div class="card">
+    <h1>Automatische Bildnachweise</h1>
+    <p class="lead">Dieses Bookmarklet erzeugt Bildnachweise nach Spektrum-Schema für <strong>picture alliance</strong>, <strong>Getty Images</strong> und <strong>Adobe Stock</strong> und kopiert das Ergebnis direkt in die Zwischenablage.</p>
+    <div class="bookmarklet-box">
+      <p><strong>Ziehe diesen Button in deine Lesezeichenleiste:</strong></p>
+      <p><a id="bookmarklet" class="bookmarklet" href="#">Bildnachweis</a></p>
+      <p class="small">Alternativ: Rechtsklick auf den Button → <em>Link als Lesezeichen speichern</em></p>
     </div>
-  </div>
-
+    <h2>So funktioniert’s</h2>
+    <ol>
+      <li>Blende die Lesezeichenleiste deines Browsers ein.</li>
+      <li>Ziehe den Button <strong>„Bildnachweis“</strong> per Drag-and-drop in die Leiste.</li>
+      <li>Öffne anschließend eine Bildseite bei <strong>picture alliance</strong>, <strong>Getty Images</strong> oder <strong>Adobe Stock</strong>.</li>
+      <li>Klicke auf das gespeicherte Lesezeichen.</li>
+      <li>Der formatierte Bildnachweis wird direkt in die Zwischenablage kopiert.</li>
+    </ol>
+    <h2>Ausgabeformate</h2>
+    <ul>
+      <li><strong>picture alliance:</strong> <code>Fotograf / Agentur / picture alliance</code></li>
+      <li><strong>Getty Images:</strong> <code>Fotograf / Getty Images / Kollektion</code></li>
+      <li><strong>Adobe Stock:</strong> <code>Fotograf / stock.adobe.com</code></li>
+    </ul>
+    <div class="note">Falls der Browser das direkte Kopieren blockiert, zeigt das Bookmarklet stattdessen ein Feld an, aus dem der Text manuell kopiert werden kann.</div>
+    <footer>Installation für Spektrum-Schema-Bildnachweise.</footer>
+  </div></div>
   <script>
     const bookmarkletCode = "javascript:(function(){function done(t){try{navigator.clipboard.writeText(t).then(function(){alert(\"Kopiert:\\n\"+t);},function(){prompt(\"Kopieren:\",t);});}catch(e){prompt(\"Kopieren:\",t);}}function norm(s){return(s||\"\").replace(/\\u00a0/g,\" \").replace(/\\s+/g,\" \").trim();}function isMostlyAllCaps(s){s=norm(s);if(!s)return false;var letters=(s.match(/[A-Za-zÀ-ÿ]/g)||[]);if(letters.length<2)return false;var uppers=(s.match(/[A-ZÀ-ß]/g)||[]).length;return uppers/letters.length>0.85;}function smartTitleWord(word){if(!word)return word;var protectedAcronyms={\"AFP\":true,\"DPA\":true,\"AP\":true,\"EPA\":true,\"UPI\":true,\"NASA\":true,\"ESA\":true,\"EU\":true,\"US\":true,\"UK\":true};if(protectedAcronyms[word])return word;if(/^\\d+$/.test(word))return word;return word.charAt(0).toUpperCase()+word.slice(1).toLowerCase();}function smartTitleCase(s){s=norm(s);if(!s)return s;if(!isMostlyAllCaps(s))return s;return s.split(/(\\s+)/).map(function(part){if(/^\\s+$/.test(part))return part;return part.split(/([\\-\\/])/).map(function(seg){if(seg===\"-\"||seg===\"/\")return seg;return seg.split(/(['])/).map(function(piece){if(piece===\"'\")return piece;return smartTitleWord(piece);}).join(\"\");}).join(\"\");}).join(\"\");}function nextNonEmptyElement(el){var n=el&&el.nextElementSibling;while(n&&!norm(n.textContent))n=n.nextElementSibling;return n;}function findValueAfterH5(label){var headers=Array.from(document.querySelectorAll(\"h5\"));var h=headers.find(function(x){return norm(x.textContent)===label;});if(!h)return null;var el=nextNonEmptyElement(h);return el?norm(el.textContent):null;}function findGettyValue(label){var all=Array.from(document.querySelectorAll(\"body *\")).map(function(el){return norm(el.textContent);}).filter(Boolean);for(var i=0;i<all.length;i++){if(all[i]===label||all[i]===label+\":\"){for(var j=i+1;j<Math.min(i+8,all.length);j++){var v=all[j];if(v&&v!==label&&v!==label+\":\")return v;}}}var bodyText=document.body.innerText||\"\";var safeLabel=label.replace(/[.*+?^${}()|[\\]\\\\]/g,\"\\\\$&\");var re=new RegExp(safeLabel+\":?\\\\s*\\\\n+([^\\\\n]+)\",\"i\");var m=bodyText.match(re);return m?norm(m[1]):null;}function getGettyFieldByTestId(id){var block=document.querySelector('[data-testid=\"'+id+'\"]');if(!block)return null;var vals=Array.from(block.children).map(function(el){return norm(el.textContent);}).filter(Boolean);if(vals.length>=2)return vals[1];var txt=norm(block.textContent);return txt||null;}function cleanAdobeAuthor(s){s=norm(s);s=s.replace(/^von\\s+/i,\"\");s=s.replace(/\\s*(\\/.*)?$/,\"\").trim();s=s.replace(/\\s*\\|\\s*.*$/,\"\").trim();if(!s)return null;if(/^(adobe stock|standard|premium|generativ|ki-generiert|jpeg|jpg|png|sonstige|vektor|foto|illustration)$/i.test(s))return null;if(/^datei nr\\.?/i.test(s))return null;if(/^\\d{6,}$/.test(s))return null;return smartTitleCase(s);}function findAdobeAuthor(){var text=(document.body.innerText||\"\").replace(/\\u00a0/g,\" \");var candidates=[];var metaAuthor=document.querySelector('meta[name=\"author\"],meta[property=\"author\"],meta[property=\"article:author\"],meta[name=\"twitter:creator\"]');if(metaAuthor&&metaAuthor.content)candidates.push(metaAuthor.content);var authorLinks=Array.from(document.querySelectorAll('a[href*=\"/de/search?\"],a[href*=\"creator\"],a[href*=\"contributor\"],a'));authorLinks.forEach(function(a){var t=norm(a.textContent);var href=a.getAttribute(\"href\")||\"\";if(!t)return;if(/\\/(contributor|creator)\\b/i.test(href))candidates.push(t);});var selectors=['h1','h2','h3','[class*=\"author\"]','[class*=\"creator\"]','[data-t]','[data-testid]','p','div','span'];Array.from(document.querySelectorAll(selectors.join(\",\"))).forEach(function(el){var t=norm(el.textContent);if(!t)return;if(/^von\\s+.+/i.test(t))candidates.push(t);var m=t.match(/(?:^|\\s)von\\s+([^|\\n\\r•]{1,120})$/i);if(m)candidates.push(m[1]);m=t.match(/(?:^|\\n)\\s*von\\s+([^\\n\\r|•]{1,120})/i);if(m)candidates.push(m[1]);});var m=text.match(/(?:^|\\n)\\s*von\\s+([^\\n\\r|•]{1,120})/i);if(m)candidates.push(m[1]);m=text.match(/\\bvon\\s+([A-ZÀ-ÿ0-9][^,\\n\\r|•]{1,120})/i);if(m)candidates.push(m[1]);var fileNr=text.match(/Datei\\s*Nr\\.?\\s*:\\s*(\\d{6,})/i);if(fileNr){var idx=text.indexOf(fileNr[0]);if(idx>=0){var windowText=text.slice(Math.max(0,idx-500),Math.min(text.length,idx+500));var m2=windowText.match(/von\\s+([^\\n\\r|•]{1,120})/i);if(m2)candidates.push(m2[1]);}}return candidates.map(cleanAdobeAuthor).find(Boolean)||null;}function handlePictureAlliance(){var raw=findValueAfterH5(\"Bildnachweis\");if(!raw){var text1=(document.body.innerText||\"\").replace(/\\u00a0/g,\" \");var m1=text1.match(/Bildnachweis\\s*[:\\n]\\s*(picture alliance\\s*\\/\\s*.+?\\|\\s*.+)/i);if(m1)raw=norm(m1[1]);}if(!raw){var text2=(document.body.innerText||\"\").replace(/\\u00a0/g,\" \");var m2=text2.match(/(picture alliance\\s*\\/\\s*[^|\\n\\r]+?\\s*\\|\\s*[^\\n\\r]+)/i);if(m2)raw=norm(m2[1]);}if(!raw){alert(\"Kein Bildnachweis gefunden.\");return;}var m=raw.match(/^picture alliance\\s*\\/\\s*(.+?)\\s*\\|\\s*(.+)$/i);if(!m){alert(\"picture-alliance-Bildnachweis hat nicht das erwartete Format:\\n\"+raw);return;}done(smartTitleCase(m[2].trim())+\" / \"+smartTitleCase(m[1].trim())+\" / picture alliance\");}function handleGetty(){var rawCredit=getGettyFieldByTestId(\"Credit:\")||getGettyFieldByTestId(\"Credit\")||findGettyValue(\"Credit\")||findGettyValue(\"Bildnachweis\");var rawCollection=getGettyFieldByTestId(\"Collection:\")||getGettyFieldByTestId(\"Collection\")||findGettyValue(\"Collection\")||findGettyValue(\"Kollektion\");if(!rawCredit){alert(\"Kein Getty-Bildnachweis gefunden.\");return;}if(!rawCollection){alert(\"Keine Getty-Kollektion gefunden.\");return;}var fotograf=smartTitleCase(rawCredit.split(\"/\")[0].trim());if(!fotograf){alert(\"Getty-Fotograf konnte nicht ermittelt werden:\\n\"+rawCredit);return;}done(fotograf+\" / Getty Images / \"+smartTitleCase(rawCollection.trim()));}function handleAdobe(){var fotograf=findAdobeAuthor();if(!fotograf){alert(\"Kein Adobe-Urheber gefunden.\");return;}done(fotograf+\" / stock.adobe.com\");}var host=location.hostname;if(/gettyimages\\./i.test(host)){handleGetty();}else if(/stock\\.adobe\\.com$/i.test(host)){handleAdobe();}else{handlePictureAlliance();}})();";
     const bookmarkletLink = document.getElementById("bookmarklet");
     bookmarkletLink.href = bookmarkletCode;
     bookmarkletLink.addEventListener("click", function (event) {
-      if (location.protocol === "http:" || location.protocol === "https:") {
-        event.preventDefault();
-        alert("Zum Installieren diesen Button in die Lesezeichenleiste ziehen.\n\nDanach das gespeicherte Lesezeichen auf einer Bildseite anklicken.");
-      }
+      event.preventDefault();
+      alert("Zum Installieren diesen Button in die Lesezeichenleiste ziehen.\n\nDanach das gespeicherte Lesezeichen auf einer Bildseite anklicken.");
     });
   </script>
 </body>
